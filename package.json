@@ -1,0 +1,26 @@
+{
+    "name": "lightbyte-task",
+    "version": "1.0.0",
+    "main": "src/main.ts",
+    "scripts": {
+        "format": "prettier --write .",
+        "build": "tsc",
+        "start:prod": "npm run build && dotenv -e .env.prod --  node dist/src/main.js",
+        "start:dev": "dotenv -e .env.dev -- ts-node-dev src/main.ts"
+    },
+    "keywords": [],
+    "author": "Ahmed Khaled",
+    "license": "ISC",
+    "description": "",
+    "dependencies": {
+        "express": "^4.21.1",
+        "mongoose": "^8.7.3",
+        "prettier": "^3.3.3"
+    },
+    "devDependencies": {
+        "@types/express": "^5.0.0",
+        "dotenv-cli": "^7.4.2",
+        "ts-node-dev": "^2.0.0",
+        "typescript": "^5.6.3"
+    }
+}
