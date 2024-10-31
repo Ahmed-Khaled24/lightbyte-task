@@ -1,8 +1,5 @@
 import mongoose from "mongoose";
-import { z } from "zod";
-import { EventsZodSchema } from "../schemas/events.schema";
-
-type Event = z.infer<typeof EventsZodSchema>;
+import { Event } from "../schemas/events.schema";
 
 const EventsMongoSchema = new mongoose.Schema<Event>(
     {
