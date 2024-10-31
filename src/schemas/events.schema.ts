@@ -44,3 +44,5 @@ export const EventsZodSchema = z.object({
             },
         ),
 });
+
+export type Event = z.infer<typeof EventsZodSchema>;
