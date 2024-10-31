@@ -1,40 +1,10 @@
 import mongoose from "mongoose";
 import { z } from "zod";
+import { EventsZodSchema } from "../schemas/events.schema";
 
-export const EventsZodSchema = z.object({
-    title: z.string().min(1),
-    description: z.string().min(1),
-    createdBy: z.string().min(1),
-    attendees: z.array(z.string().min(1)).optional(),
-    id: z
-        .string()
-        .refine(
-            (id) => {
-                try {
-                    new mongoose.Types.ObjectId(id);
-                    return true;
-                } catch {
-                    return false;
-                }
-            },
-            {
-                message: "Invalid MongoDB Id",
-            },
-        )
-        .optional(),
-    date: z.date().refine(
-        (date) => {
-            // Make sure that date is in the future
-            const dateObj = new Date(date);
-            return dateObj > new Date();
-        },
-        {
-            message: "Date must be in the future.",
-        },
-    ),
-});
+type Event = z.infer<typeof EventsZodSchema>;
 
-const EventsMongoSchema = new mongoose.Schema<z.infer<typeof EventsZodSchema>>(
+const EventsMongoSchema = new mongoose.Schema<Event>(
     {
         title: {
             type: String,
@@ -49,7 +19,7 @@ const EventsMongoSchema = new mongoose.Schema<z.infer<typeof EventsZodSchema>>(
             required: true,
         },
         date: {
-            type: Date,
+            type: String,
             required: true,
         },
         attendees: {
