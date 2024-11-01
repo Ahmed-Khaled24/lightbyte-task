@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import eventsService from "../services/events.service";
 import { Pagination } from "../schemas/pagination.schema";
 import { CreateEvent, Event, UpdateEvent } from "../schemas/events.schema";
-import { HTTPError } from "../utils/HTTPError";
+import { handleRequestError } from "../utils/request-error-handler";
 
 async function createEvent(
     req: Request<never, never, CreateEvent>,
@@ -21,17 +21,7 @@ async function createEvent(
         });
         return;
     } catch (error) {
-        let message = `Error creating event: ${(error as Error).message}`;
-        let code = 500;
-
-        if (error instanceof HTTPError) {
-            message = error.message;
-            code = error.status;
-        }
-
-        res.status(code).json({
-            data: message,
-        });
+        handleRequestError(res, error, "Error creating event:");
     }
 }
 
@@ -45,17 +35,7 @@ async function getEvents(req: Request<Pagination>, res: Response) {
         });
         return;
     } catch (error) {
-        let message = `Error getting events: ${(error as Error).message}`;
-        let code = 500;
-
-        if (error instanceof HTTPError) {
-            message = error.message;
-            code = error.status;
-        }
-
-        res.status(code).json({
-            data: message,
-        });
+        handleRequestError(res, error, "Error getting events:");
     }
 }
 
@@ -72,17 +52,7 @@ async function getEvent(
         });
         return;
     } catch (error) {
-        let message = `Error getting event: ${(error as Error).message}`;
-        let code = 500;
-
-        if (error instanceof HTTPError) {
-            message = error.message;
-            code = error.status;
-        }
-
-        res.status(code).json({
-            data: message,
-        });
+        handleRequestError(res, error, "Error getting event:");
     }
 }
 
@@ -99,9 +69,7 @@ async function deleteEvent(
         });
         return;
     } catch (error) {
-        res.status(500).json({
-            data: `Error deleting event: ${(error as Error).message}`,
-        });
+        handleRequestError(res, error, "Error deleting event:");
     }
 }
 
@@ -118,9 +86,7 @@ async function updateEvent(
         });
         return;
     } catch (error) {
-        res.status(500).json({
-            data: `Error updating event: ${(error as Error).message}`,
-        });
+        handleRequestError(res, error, "Error updating event:");
     }
 }
 
@@ -139,17 +105,7 @@ async function subscribeEvent(
         });
         return;
     } catch (error) {
-        let message = `Error subscribing: ${(error as Error).message}`;
-        let code = 500;
-
-        if (error instanceof HTTPError) {
-            message = error.message;
-            code = error.status;
-        }
-
-        res.status(code).json({
-            data: message,
-        });
+        handleRequestError(res, error, "Error subscribing to event:");
     }
 }
 
@@ -168,17 +124,7 @@ async function unsubscribeEvent(
         });
         return;
     } catch (error) {
-        let message = `Error unsubscribing event: ${(error as Error).message}`;
-        let code = 500;
-
-        if (error instanceof HTTPError) {
-            message = error.message;
-            code = error.status;
-        }
-
-        res.status(code).json({
-            data: message,
-        });
+        handleRequestError(res, error, "Error unsubscribing from event:");
     }
 }
 
