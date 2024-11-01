@@ -10,6 +10,12 @@ export const EventsZodSchema = z.object({
     description: z.string().min(1),
     createdBy: z.string().min(1),
     attendees: z.array(z.string().min(1)),
+    createdAt: z.string().refine(validateStringDate, {
+        message: "Invalid date format.",
+    }),
+    updatedAt: z.string().refine(validateStringDate, {
+        message: "Invalid date format.",
+    }),
     id: z.string().refine(
         (id) => {
             try {
@@ -25,25 +31,12 @@ export const EventsZodSchema = z.object({
     ),
     date: z
         .string()
-        .refine(
-            (date) => {
-                const dateObj = new Date(date);
-                return !isNaN(dateObj.getTime());
-            },
-            {
-                message: "Invalid date format.",
-            },
-        )
-        .refine(
-            (date) => {
-                // Make sure that date is in the future.
-                const dateObj = new Date(date);
-                return dateObj > new Date();
-            },
-            {
-                message: "Date must be in the future.",
-            },
-        ),
+        .refine(validateStringDate, {
+            message: "Invalid date format.",
+        })
+        .refine(validateStringDateInFuture, {
+            message: "Date must be in the future.",
+        }),
 });
 
 /**
@@ -54,6 +47,8 @@ export const EventsCreateZodSchema = EventsZodSchema.omit({
     id: true,
     attendees: true,
     createdBy: true,
+    createdAt: true,
+    updatedAt: true,
 });
 
 /**
@@ -71,3 +66,15 @@ export const EventsUpdateZodSchema = EventsZodSchema.omit({
 export type Event = z.infer<typeof EventsZodSchema>;
 export type CreateEvent = z.infer<typeof EventsCreateZodSchema>;
 export type UpdateEvent = z.infer<typeof EventsUpdateZodSchema>;
+
+// ? Helper functions (to get plugged into zod refine)
+
+function validateStringDate(date: string) {
+    const dateObj = new Date(date);
+    return !isNaN(dateObj.getTime());
+}
+
+function validateStringDateInFuture(date: string) {
+    const dateObj = new Date(date);
+    return dateObj > new Date();
+}
