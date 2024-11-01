@@ -48,3 +48,183 @@ Then run the following command:
 ```bash
  npm run start:prod
 ```
+
+## Basic API Documentation:
+
+### Create an event:
+
+**Constraints:** A user is allowed to create at most 5 events per day.
+
+-   **URL:** `/events`
+-   **Method:** `POST`
+-   **Request Body:**
+
+```json
+{
+    "title": "Event Name",
+    "description": "Event Description",
+    "date": "2022-12-12T12:00:00.000Z" // Must be in the future
+}
+```
+
+-   **Response:**
+
+```json
+{
+    "data": {
+        "title": "Event Name",
+        "description": "Event Description",
+        "date": "2022-12-12T12:00:00.000Z",
+        "_id": "event-id",
+        "createdAt": "2022-12-12T12:00:00.000Z",
+        "updatedAt": "2022-12-12T12:00:00.000Z",
+        "createdBy": "some-username"
+    }
+}
+```
+
+### Get all events:
+
+-   **URL:** `/events`
+-   **Method:** `GET`
+-   **Query Parameters**
+    -   `page` (optional) `Must be greater than or equal 0`
+    -   `limit` (optional) `Must be greater than 0`
+-   **Response:**
+
+```json
+{
+    "data": [
+        {
+            "title": "Event Name",
+            "description": "Event Description",
+            "date": "2022-12-12T12:00:00.000Z",
+            "_id": "event-id",
+            "createdAt": "2022-12-12T12:00:00.000Z",
+            "updatedAt": "2022-12-12T12:00:00.000Z",
+            "createdBy": "some-username"
+        }
+    ]
+}
+```
+
+### Get a single event:
+
+-   **URL:** `/events/:id`
+-   **Method:** `GET`
+-   **Response:**
+
+```json
+{
+    "data": {
+        "title": "Event Name",
+        "description": "Event Description",
+        "date": "2022-12-12T12:00:00.000Z",
+        "_id": "event-id",
+        "createdAt": "2022-12-12T12:00:00.000Z",
+        "updatedAt": "2022-12-12T12:00:00.000Z",
+        "createdBy": "some-username"
+    }
+}
+```
+
+### Update an event:
+
+-   **URL:** `/events/:id`
+-   **Method:** `PATCH`
+-   **Request Body:**
+
+```json
+// The updated version of the event
+{
+    "title": "New Event Name", // Optional
+    "description": "New Event Description", // Optional
+    "date": "2022-12-12T12:00:00.000Z", // Optional
+    "createdBy": "some-new-username" // Optional
+}
+```
+
+-   **Response:**
+
+```json
+{
+    "data": {
+        "title": "New Event Name",
+        "description": "New Event Description",
+        "date": "2022-12-12T12:00:00.000Z",
+        "_id": "event-id",
+        "createdAt": "2022-12-12T12:00:00.000Z",
+        "updatedAt": "2022-12-12T12:00:00.000Z",
+        "createdBy": "some-new-username"
+    }
+}
+```
+
+### Delete an event:
+
+-   **URL:** `/events/:id`
+-   **Method:** `DELETE`
+-   **Response:**
+
+```json
+// The deleted event
+{
+    "data": {
+        "title": "New Event Name",
+        "description": "New Event Description",
+        "date": "2022-12-12T12:00:00.000Z",
+        "_id": "event-id",
+        "createdAt": "2022-12-12T12:00:00.000Z",
+        "updatedAt": "2022-12-12T12:00:00.000Z",
+        "createdBy": "some-new-username"
+    }
+}
+```
+
+### Subscribe to an event:
+
+-   **Constraints:** A user is allowed to subscribe only to the future events.
+
+-   **URL:** `/events/:id/subscribe`
+-   **Method:** `POST`
+-   **Response:**
+
+```json
+// The target event after updating the attendees list
+{
+    "data": {
+        "title": "Event Name",
+        "description": "Event Description",
+        "date": "2022-12-12T12:00:00.000Z",
+        "_id": "event-id",
+        "createdAt": "2022-12-12T12:00:00.000Z",
+        "updatedAt": "2022-12-12T12:00:00.000Z",
+        "createdBy": "some-username",
+        "attendees": ["some-username"]
+    }
+}
+```
+
+### Unsubscribe from an event:
+
+**Constraints:** A user is allowed to unsubscribe only from the events he/she is already subscribed to, also, must be in the future.
+
+-   **URL:** `/events/:id/unsubscribe`
+-   **Method:** `POST`
+-   **Response:**
+
+```json
+// The target event after updating the attendees list
+{
+    "data": {
+        "title": "Event Name",
+        "description": "Event Description",
+        "date": "2022-12-12T12:00:00.000Z",
+        "_id": "event-id",
+        "createdAt": "2022-12-12T12:00:00.000Z",
+        "updatedAt": "2022-12-12T12:00:00.000Z",
+        "createdBy": "some-username",
+        "attendees": []
+    }
+}
+```
