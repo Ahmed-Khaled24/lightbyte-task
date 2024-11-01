@@ -20,20 +20,18 @@ async function deleteEvent(id: string) {
 }
 
 /**
- * If Id passed only the requested event is returned,
+ * If Id passed only the requested event is returned wrapped in an array,
  * otherwise all events are returned (considering pagination)
  * @param id Id of the event to get
  * @param page The page number to get
  * @param limit The number of events to get per page
  */
 async function getEvents(id: string | null, page: number, limit: number) {
-    const filter: Partial<Event> = {};
-
     if (id) {
-        filter.id = id;
+        return [await EventsModel.findById(id)];
     }
 
-    return await EventsModel.find(filter)
+    return await EventsModel.find()
         .skip(page * limit)
         .limit(limit);
 }

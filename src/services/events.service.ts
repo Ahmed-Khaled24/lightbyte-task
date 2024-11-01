@@ -35,7 +35,13 @@ async function getEvents(page: number, limit: number) {
 }
 
 async function getEvent(id: string) {
-    return await eventsRepository.getEvents(id, 0, 0);
+    const events = await eventsRepository.getEvents(id, 0, 0);
+
+    if (!events[0]) {
+        throw new HTTPError("Event not found!", 404);
+    }
+
+    return events;
 }
 
 async function deleteEvent(id: string) {

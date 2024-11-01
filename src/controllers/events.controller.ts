@@ -45,8 +45,16 @@ async function getEvents(req: Request<Pagination>, res: Response) {
         });
         return;
     } catch (error) {
-        res.status(500).json({
-            data: `Error getting events: ${(error as Error).message}`,
+        let message = `Error getting events: ${(error as Error).message}`;
+        let code = 500;
+
+        if (error instanceof HTTPError) {
+            message = error.message;
+            code = error.status;
+        }
+
+        res.status(code).json({
+            data: message,
         });
     }
 }
@@ -64,8 +72,16 @@ async function getEvent(
         });
         return;
     } catch (error) {
-        res.status(500).json({
-            data: `Error getting event: ${(error as Error).message}`,
+        let message = `Error getting event: ${(error as Error).message}`;
+        let code = 500;
+
+        if (error instanceof HTTPError) {
+            message = error.message;
+            code = error.status;
+        }
+
+        res.status(code).json({
+            data: message,
         });
     }
 }
