@@ -1,10 +1,20 @@
 import EventsModel from "../models/events.model";
 import { Event } from "../schemas/events.schema";
 
-async function createEvent(event: Event) {
+/**
+ * Create a new event
+ * @param event The complete event data to create
+ * @returns The created event
+ */
+async function createEvent(event: Omit<Event, "id" | "attendees">) {
     return await EventsModel.create(event);
 }
 
+/**
+ * Delete an event with the given id
+ * @param id The id of the event to delete
+ * @returns The deleted event
+ */
 async function deleteEvent(id: string) {
     return await EventsModel.findByIdAndDelete(id);
 }
@@ -17,11 +27,13 @@ async function deleteEvent(id: string) {
  * @param limit The number of events to get per page
  */
 async function getEvents(id: string | null, page: number, limit: number) {
+    const filter: Partial<Event> = {};
+
     if (id) {
-        return await EventsModel.findById(id);
+        filter.id = id;
     }
 
-    return await EventsModel.find()
+    return await EventsModel.find(filter)
         .skip(page * limit)
         .limit(limit);
 }
