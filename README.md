@@ -1,5 +1,12 @@
 # Events Management System
 
+## Tools and Technologies used:
+
+-   Express.js
+-   TypeScript
+-   Mongoose ODM
+-   Zod for validation and type generation
+
 ## How to run the project:
 
 **First** make sure that you have Node.js installed on you machine, version 20 or higher.
