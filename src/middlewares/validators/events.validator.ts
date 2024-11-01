@@ -10,7 +10,7 @@ export function createEvent(req: Request, res: Response, next: NextFunction) {
         req.body = parsedData;
         next();
     } catch (error) {
-        res.status(400).send({
+        res.status(400).json({
             data: `Invalid event data: ${(error as Error).message}`,
         });
     }
@@ -22,7 +22,7 @@ export function updateEvent(req: Request, res: Response, next: NextFunction) {
         req.body = parsedData;
         next();
     } catch (error) {
-        res.status(400).send({
+        res.status(400).json({
             data: `Invalid event data: ${(error as Error).message}`,
         });
     }

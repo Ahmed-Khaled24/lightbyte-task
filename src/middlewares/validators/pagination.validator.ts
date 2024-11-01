@@ -10,20 +10,21 @@ function paginationData(
     next: NextFunction,
 ) {
     try {
-        const pagination = PaginationZodSchema.parse(req.query);
+        const parsedData = PaginationZodSchema.parse(req.query);
 
         /**
-         * Update pagination data to make sure default values
-         * added in case it weren't passed by the user
+         * Add the parsed data to the params
+         * to make sure that default values added
+         * in case of missing values
          */
         req.params = {
             ...req.params,
-            ...pagination,
+            ...parsedData,
         };
 
         next();
     } catch (error) {
-        res.status(400).send({
+        res.status(400).json({
             data: `Invalid pagination data: ${(error as Error).message}`,
         });
     }

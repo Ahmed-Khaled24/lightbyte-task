@@ -23,7 +23,7 @@ function IdParam(req: Request, res: Response, next: NextFunction) {
         IdSchema.parse(req.params);
         next();
     } catch (error) {
-        res.status(400).send({
+        res.status(400).json({
             data: `Invalid Id: ${(error as Error).message}`,
         });
     }
