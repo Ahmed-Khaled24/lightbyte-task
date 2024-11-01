@@ -147,7 +147,7 @@ async function subscribeEvent(
             code = error.status;
         }
 
-        res.status(500).json({
+        res.status(code).json({
             data: message,
         });
     }
@@ -176,7 +176,7 @@ async function unsubscribeEvent(
             code = error.status;
         }
 
-        res.status(500).json({
+        res.status(code).json({
             data: message,
         });
     }
