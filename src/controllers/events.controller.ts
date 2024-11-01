@@ -10,9 +10,9 @@ async function createEvent(
 ) {
     try {
         // Combine user data with the event data
-        const completeEvent: Omit<Event, "id" | "attendees"> = {
+        const completeEvent: CreateEvent & Pick<Event, "createdBy"> = {
             ...req.body,
-            createdBy: req.user.username,
+            createdBy: req.user?.username ?? "Anonymous",
         };
         const createdEvent = await eventsService.createEvent(completeEvent);
 
@@ -29,7 +29,7 @@ async function createEvent(
             code = error.status;
         }
 
-        res.status(500).json({
+        res.status(code).json({
             data: message,
         });
     }
@@ -115,7 +115,7 @@ async function subscribeEvent(
 ) {
     try {
         const { id } = req.params;
-        const username = req.user.username;
+        const username = req.user?.username ?? "Anonymous";
         await eventsService.subscribeEvent(id, username);
 
         res.status(200).json({
@@ -144,7 +144,7 @@ async function unsubscribeEvent(
 ) {
     try {
         const { id } = req.params;
-        const username = req.user.username;
+        const username = req.user?.username ?? "Anonymous";
         await eventsService.unsubscribeEvent(id, username);
 
         res.status(200).json({

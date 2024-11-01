@@ -1,12 +1,12 @@
 import EventsModel from "../models/events.model";
-import { Event } from "../schemas/events.schema";
+import { CreateEvent, Event } from "../schemas/events.schema";
 
 /**
  * Create a new event
  * @param event The complete event data to create
  * @returns The created event
  */
-async function createEvent(event: Omit<Event, "id" | "attendees">) {
+async function createEvent(event: CreateEvent & Pick<Event, "createdBy">) {
     return await EventsModel.create(event);
 }
 
