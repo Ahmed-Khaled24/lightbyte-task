@@ -38,7 +38,7 @@ async function createEvent(
 async function getEvents(req: Request<Pagination>, res: Response) {
     try {
         const { page, limit } = req.params;
-        const events = await eventsService.getEvents(limit, page);
+        const events = await eventsService.getEvents(page, limit);
 
         res.status(200).json({
             data: events,
