@@ -98,10 +98,10 @@ async function subscribeEvent(
     try {
         const { id } = req.params;
         const username = req.user?.username ?? "Anonymous";
-        await eventsService.subscribeEvent(id, username);
+        const event = await eventsService.subscribeEvent(id, username);
 
         res.status(200).json({
-            data: "Subscribed to event.",
+            data: event,
         });
         return;
     } catch (error) {
@@ -117,10 +117,10 @@ async function unsubscribeEvent(
     try {
         const { id } = req.params;
         const username = req.user?.username ?? "Anonymous";
-        await eventsService.unsubscribeEvent(id, username);
+        const event = await eventsService.unsubscribeEvent(id, username);
 
         res.status(200).json({
-            data: "Unsubscribed from event.",
+            data: event,
         });
         return;
     } catch (error) {
