@@ -1,20 +1,21 @@
 import eventsRepository from "../repositories/events.repository";
-import { Event, UpdateEvent } from "../schemas/events.schema";
+import { CreateEvent, Event, UpdateEvent } from "../schemas/events.schema";
 import { HTTPError } from "../utils/HTTPError";
 
-async function createEvent(event: Omit<Event, "id" | "attendees">) {
+async function createEvent(event: CreateEvent & Pick<Event, "createdBy">) {
     const creator = event.createdBy;
 
     // Get event created today by the current creator
     const creatorEvents = await eventsRepository.getEventsByUsername(creator);
+
     const eventsCreatedToday = creatorEvents.filter((event) => {
         const today = new Date();
-        const eventDate = new Date(event.date);
+        const eventDate = new Date(event.createdAt);
 
         return (
-            today.getDate() === eventDate.getDate() &&
             today.getFullYear() === eventDate.getFullYear() &&
-            today.getMonth() === eventDate.getMonth()
+            today.getMonth() === eventDate.getMonth() &&
+            today.getDate() === eventDate.getDate()
         );
     });
 
