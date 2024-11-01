@@ -3,11 +3,13 @@ import eventsValidator from "../middlewares/validators/events.validator";
 import paginationValidator from "../middlewares/validators/pagination.validator";
 import mongoValidator from "../middlewares/validators/mongo.validator";
 import eventsController from "../controllers/events.controller";
+import authentication from "../middlewares/auth/authentication";
 
 const eventsRouter = Router();
 
 eventsRouter.post(
     "/",
+    authentication.authenticate,
     eventsValidator.createEvent,
     eventsController.createEvent,
 );
@@ -28,18 +30,22 @@ eventsRouter.delete(
 
 eventsRouter.patch(
     "/:id",
+    authentication.authenticate,
     mongoValidator.IdParam,
+    eventsValidator.updateEvent,
     eventsController.updateEvent,
 );
 
 eventsRouter.post(
     "/:id/subscribe",
+    authentication.authenticate,
     mongoValidator.IdParam,
     eventsController.subscribeEvent,
 );
 
 eventsRouter.post(
     "/:id/unsubscribe",
+    authentication.authenticate,
     mongoValidator.IdParam,
     eventsController.unsubscribeEvent,
 );
