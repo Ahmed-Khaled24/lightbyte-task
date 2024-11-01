@@ -51,9 +51,13 @@ Then run the following command:
 
 ## Basic API Documentation:
 
+**Note:** All endpoints that require a username to pass successfully are handled
+by authenticate dummy middleware that will always populate the req.user object with
+constant username called `veryTrustedUser`.
+
 ### Create an event:
 
-**Constraints:** A user is allowed to create at most 5 events per day.
+**Constraint:** A user is allowed to create at most 5 events per day.
 
 -   **URL:** `/events`
 -   **Method:** `POST`
@@ -72,10 +76,10 @@ Then run the following command:
 ```json
 {
     "data": {
+        "_id": "event-id",
         "title": "Event Name",
         "description": "Event Description",
         "date": "2022-12-12T12:00:00.000Z",
-        "_id": "event-id",
         "createdAt": "2022-12-12T12:00:00.000Z",
         "updatedAt": "2022-12-12T12:00:00.000Z",
         "createdBy": "some-username"
@@ -96,10 +100,10 @@ Then run the following command:
 {
     "data": [
         {
+            "_id": "event-id",
             "title": "Event Name",
             "description": "Event Description",
             "date": "2022-12-12T12:00:00.000Z",
-            "_id": "event-id",
             "createdAt": "2022-12-12T12:00:00.000Z",
             "updatedAt": "2022-12-12T12:00:00.000Z",
             "createdBy": "some-username"
@@ -117,10 +121,10 @@ Then run the following command:
 ```json
 {
     "data": {
+        "_id": "event-id",
         "title": "Event Name",
         "description": "Event Description",
         "date": "2022-12-12T12:00:00.000Z",
-        "_id": "event-id",
         "createdAt": "2022-12-12T12:00:00.000Z",
         "updatedAt": "2022-12-12T12:00:00.000Z",
         "createdBy": "some-username"
@@ -149,10 +153,10 @@ Then run the following command:
 ```json
 {
     "data": {
+        "_id": "event-id",
         "title": "New Event Name",
         "description": "New Event Description",
         "date": "2022-12-12T12:00:00.000Z",
-        "_id": "event-id",
         "createdAt": "2022-12-12T12:00:00.000Z",
         "updatedAt": "2022-12-12T12:00:00.000Z",
         "createdBy": "some-new-username"
@@ -170,10 +174,10 @@ Then run the following command:
 // The deleted event
 {
     "data": {
+        "_id": "event-id",
         "title": "New Event Name",
         "description": "New Event Description",
         "date": "2022-12-12T12:00:00.000Z",
-        "_id": "event-id",
         "createdAt": "2022-12-12T12:00:00.000Z",
         "updatedAt": "2022-12-12T12:00:00.000Z",
         "createdBy": "some-new-username"
@@ -183,7 +187,7 @@ Then run the following command:
 
 ### Subscribe to an event:
 
--   **Constraints:** A user is allowed to subscribe only to the future events.
+-   **Constraint:** A user is allowed to subscribe only to the future events.
 
 -   **URL:** `/events/:id/subscribe`
 -   **Method:** `POST`
@@ -193,10 +197,10 @@ Then run the following command:
 // The target event after updating the attendees list
 {
     "data": {
+        "_id": "event-id",
         "title": "Event Name",
         "description": "Event Description",
         "date": "2022-12-12T12:00:00.000Z",
-        "_id": "event-id",
         "createdAt": "2022-12-12T12:00:00.000Z",
         "updatedAt": "2022-12-12T12:00:00.000Z",
         "createdBy": "some-username",
@@ -207,7 +211,7 @@ Then run the following command:
 
 ### Unsubscribe from an event:
 
-**Constraints:** A user is allowed to unsubscribe only from the events he/she is already subscribed to, also, must be in the future.
+**Constraint:** A user is allowed to unsubscribe only from the events he/she is already subscribed to, also, must be in the future.
 
 -   **URL:** `/events/:id/unsubscribe`
 -   **Method:** `POST`
@@ -217,10 +221,10 @@ Then run the following command:
 // The target event after updating the attendees list
 {
     "data": {
+        "_id": "event-id",
         "title": "Event Name",
         "description": "Event Description",
         "date": "2022-12-12T12:00:00.000Z",
-        "_id": "event-id",
         "createdAt": "2022-12-12T12:00:00.000Z",
         "updatedAt": "2022-12-12T12:00:00.000Z",
         "createdBy": "some-username",
