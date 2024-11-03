@@ -14,13 +14,13 @@
 1. Clone the repository to your local machine.
 
 ```bash
- git clone git@github.com:Ahmed-Khaled24/LightByte-task.git
+ git clone git@github.com:Ahmed-Khaled24/lightbyte-task.git
 ```
 
 2. Navigate to the project directory.
 
 ```bash
- cd LightByte-task
+ cd lightbyte-task
 ```
 
 3. Install the project dependencies.
